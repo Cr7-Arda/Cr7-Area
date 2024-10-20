@@ -1,0 +1,40 @@
+-- Whitelist kullanıcı adları
+local whitelist = {
+    "Cr7_NoWayBan", -- Örnek Kullanıcı 1
+    "DontCry"  -- Örnek Kullanıcı 2
+}
+
+-- Whitelist kontrol fonksiyonu
+local function isWhitelisted(player)
+    for _, username in ipairs(whitelist) do
+        if player.Name == username then
+            return true
+        end
+    end
+    return false
+end
+
+-- Oyuncu değişkenini al
+local player = game.Players.LocalPlayer
+
+-- Eğer oyuncu whitelist'te değilse, script çalışmasın
+if not isWhitelisted(player) then
+    warn("Buy Script İn Discord Boy!")
+    return -- Scripti sonlandırır
+end
+
+-- Whitelist'teki kullanıcılar için çalışacak ana script
+local range = 20
+local hits = 0
+
+while wait(0.5) do
+    for _, target in pairs(game.Players:GetPlayers()) do
+        if target ~= player and target.Character and target.Character:FindFirstChild("HumanoidRootPart") then
+            local distance = (target.Character.HumanoidRootPart.Position - player.Character.HumanoidRootPart.Position).Magnitude
+            if distance <= range then
+                hits = hits + 1
+                game:GetService("ReplicatedStorage").remoteInterface.interactions.meleePlayer:FireServer(hits, 1, target)
+            end
+        end
+    end
+end
