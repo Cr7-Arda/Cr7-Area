@@ -1,1 +1,85 @@
-.
+-- Load the items module
+local itemsModule = require(game:GetService("ReplicatedStorage").game.Items)
+
+-- Cek apakah itemsModule adalah fungsi dan panggil jika perlu
+if type(itemsModule) == "function" then
+    itemsModule = itemsModule() -- Panggil fungsi untuk mendapatkan tabel item
+end
+
+-- Pastikan itemsModule adalah tabel
+if type(itemsModule) ~= "table" then
+    error("Expected itemsModule to be a table, but got: " .. type(itemsModule))
+end
+
+-- Fungsi untuk mendapatkan semua item
+local function getAllItems()
+    if type(itemsModule.getAllItems) == "function" then
+        return itemsModule.getAllItems() -- Panggil fungsi untuk mendapatkan semua item
+    else
+        error("getAllItems is not a function")
+    end
+end
+
+-- Ambil semua item
+local allItems = getAllItems()
+
+-- Cek apakah allItems adalah tabel
+if type(allItems) ~= "table" then
+    error("Expected allItems to be a table, but got: " .. type(allItems))
+end
+
+-- Fungsi untuk membangun string detail item
+local function buildItemDetails(items)
+    local details = ""
+    for itemId, itemInfo in pairs(items) do
+        details = details .. "Item ID: " .. itemId .. "\n"
+        if type(itemInfo) == "table" then
+            for key, value in pairs(itemInfo) do
+                details = details .. "   " .. key .. ": " .. tostring(value) .. "\n"
+            end
+        else
+            details = details .. "   Item Info is not a table: " .. tostring(itemInfo) .. "\n"
+        end
+        details = details .. "----\n"
+    end
+    return details
+end
+
+-- Membangun string detail
+local itemDetails = buildItemDetails(allItems)
+
+-- Membuat GUI
+local screenGui = Instance.new("ScreenGui")
+local frame = Instance.new("Frame")
+local textBox = Instance.new("TextBox")
+local copyButton = Instance.new("TextButton")
+
+-- Setel properti GUI
+screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+frame.Parent = screenGui
+frame.Size = UDim2.new(0.5, 0, 0.5, 0)
+frame.Position = UDim2.new(0.25, 0, 0.25, 0)
+frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+
+textBox.Parent = frame
+textBox.Size = UDim2.new(1, 0, 0.8, 0)
+textBox.Position = UDim2.new(0, 0, 0, 0)
+textBox.Text = itemDetails
+textBox.TextWrapped = true
+textBox.TextScaled = true
+textBox.ClearTextOnFocus = false
+textBox.BackgroundColor3 = Color3.fromRGB(240, 240, 240)
+
+copyButton.Parent = frame
+copyButton.Size = UDim2.new(1, 0, 0.2, 0)
+copyButton.Position = UDim2.new(0, 0, 0.8, 0)
+copyButton.Text = "Copy to Clipboard"
+copyButton.BackgroundColor3 = Color3.fromRGB(200, 200, 200)
+
+-- Fungsi untuk menyalin ke clipboard
+copyButton.MouseButton1Click:Connect(function()
+    setclipboard(itemDetails)
+    print("Item details copied to clipboard.")
+end)
+
+print("GUI created successfully.")
