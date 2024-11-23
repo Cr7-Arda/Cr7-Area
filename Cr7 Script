@@ -1,1 +1,112 @@
+local player = game.Players.LocalPlayer
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = player:WaitForChild("PlayerGui")
 
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 400, 0, 240)
+frame.Position = UDim2.new(0.5, -200, 0.5, -165)
+frame.BackgroundTransparency = 0.6
+frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+frame.Draggable = true
+frame.Parent = screenGui
+
+local closeButtonX = Instance.new("TextButton")
+closeButtonX.Size = UDim2.new(0, 30, 0, 30)
+closeButtonX.Position = UDim2.new(1, -40, 0, 10)
+closeButtonX.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+closeButtonX.Text = "×"
+closeButtonX.TextColor3 = Color3.fromRGB(0, 0, 0)
+closeButtonX.Parent = frame
+
+local closeButton = Instance.new("TextButton")
+closeButton.Size = UDim2.new(0, 30, 0, 30)
+closeButton.Position = UDim2.new(1, -80, 0, 10)
+closeButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+closeButton.Text = "-"
+closeButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+closeButton.Parent = frame
+
+local showButton = Instance.new("TextButton")
+showButton.Size = UDim2.new(0, 50, 0, 50)
+showButton.Position = UDim2.new(0, 14, 0, 170)
+showButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+showButton.Text = "Cr7"
+showButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+showButton.Visible = false
+showButton.Parent = screenGui
+
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0.5, 0)
+corner.Parent = showButton
+
+local tableContent = Instance.new("Frame")
+tableContent.Size = UDim2.new(1, 0, 1, 0)
+tableContent.Position = UDim2.new(0, 0, 0, 0)
+tableContent.BackgroundTransparency = 0.6
+tableContent.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+tableContent.Parent = frame
+
+local textLabel = Instance.new("TextLabel")
+textLabel.Size = UDim2.new(0, 200, 0, 30)
+textLabel.Position = UDim2.new(1, -440, 0, 10)
+textLabel.BackgroundTransparency = 1
+textLabel.Text = "Cr7 Arda"
+textLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+textLabel.TextSize = 18
+textLabel.Parent = frame
+
+local discordLabel = Instance.new("TextLabel")
+discordLabel.Size = UDim2.new(0, 110, 0, 20)
+discordLabel.Position = UDim2.new(0.5, -43, 0, 15)
+discordLabel.BackgroundTransparency = 1
+discordLabel.Text = "My Discord Address: cr7_ardax"
+discordLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+discordLabel.TextSize = 10
+discordLabel.TextXAlignment = Enum.TextXAlignment.Center
+discordLabel.TextYAlignment = Enum.TextYAlignment.Center
+discordLabel.Parent = frame
+
+local line = Instance.new("Frame")
+line.Size = UDim2.new(1, 0, 0, 2)
+line.Position = UDim2.new(0, 0, 0, 50)
+line.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+line.Parent = frame
+
+local outerLineTop = Instance.new("Frame")
+outerLineTop.Size = UDim2.new(1, 0, 0, 2)
+outerLineTop.Position = UDim2.new(0, 0, 0, 0)
+outerLineTop.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+outerLineTop.Parent = frame
+
+local outerLineBottom = Instance.new("Frame")
+outerLineBottom.Size = UDim2.new(1, 0, 0, 2)
+outerLineBottom.Position = UDim2.new(0, 0, 1, -2)
+outerLineBottom.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+outerLineBottom.Parent = frame
+
+local outerLineLeft = Instance.new("Frame")
+outerLineLeft.Size = UDim2.new(0, 2, 1, 0)
+outerLineLeft.Position = UDim2.new(0, 0, 0, 0)
+outerLineLeft.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+outerLineLeft.Parent = frame
+
+local outerLineRight = Instance.new("Frame")
+outerLineRight.Size = UDim2.new(0, 2, 1, 0)
+outerLineRight.Position = UDim2.new(1, -2, 0, 0)
+outerLineRight.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+outerLineRight.Parent = frame
+
+closeButton.MouseButton1Click:Connect(function()
+    frame.Visible = false
+    showButton.Visible = true
+end)
+
+closeButtonX.MouseButton1Click:Connect(function()
+    frame.Visible = false
+    showButton.Visible = false
+end)
+
+showButton.MouseButton1Click:Connect(function()
+    frame.Visible = true
+    showButton.Visible = false
+end)
