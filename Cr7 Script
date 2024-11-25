@@ -1,1 +1,152 @@
-.
+local whitelist = { "Player1", "Player2", "CR7" }
+local player = game.Players.LocalPlayer
+
+local function isWhitelisted(playerName)
+    for _, name in pairs(whitelist) do
+        if name == playerName then
+            return true
+        end
+    end
+    return false
+end
+
+if not isWhitelisted(player.Name) then
+    player:Kick("Whitelist Error: You are not allowed to use this script.")
+    return
+end
+
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = player:WaitForChild("PlayerGui")
+
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 400, 0, 240)
+frame.Position = UDim2.new(0.5, -200, 0.5, -120)
+frame.BackgroundTransparency = 0.6
+frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+frame.Parent = screenGui
+
+local function addLabel(parent, text, position)
+    local label = Instance.new("TextLabel")
+    label.Size = UDim2.new(0, 60, 0, 40)
+    label.Position = position
+    label.BackgroundTransparency = 0.5
+    label.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    label.Text = text
+    label.TextColor3 = Color3.fromRGB(255, 255, 255)
+    label.Font = Enum.Font.SourceSans
+    label.TextSize = 20
+    label.Parent = parent
+
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0.3, 0)
+    corner.Parent = label
+
+    return label
+end
+
+addLabel(frame, "Player", UDim2.new(0, 5, 0, 45))
+addLabel(frame, "Combat", UDim2.new(0, 5, 0, 95))
+addLabel(frame, "Teleport", UDim2.new(0, 5, 0, 145))
+addLabel(frame, "Esp", UDim2.new(0, 5, 0, 195))
+
+local UIS = game:GetService("UserInputService")
+local dragging, dragInput, dragStart, startPos
+
+local function update(input)
+    local delta = input.Position - dragStart
+    frame.Position = UDim2.new(
+        startPos.X.Scale,
+        startPos.X.Offset + delta.X,
+        startPos.Y.Scale,
+        startPos.Y.Offset + delta.Y
+    )
+end
+
+frame.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = true
+        dragStart = input.Position
+        startPos = frame.Position
+
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
+            end
+        end)
+    end
+end)
+
+frame.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+        dragInput = input
+    end
+end)
+
+UIS.InputChanged:Connect(function(input)
+    if input == dragInput and dragging then
+        update(input)
+    end
+end)
+
+local closeButtonX = Instance.new("TextButton")
+closeButtonX.Size = UDim2.new(0, 30, 0, 30)
+closeButtonX.Position = UDim2.new(1, -40, 0, 10)
+closeButtonX.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+closeButtonX.Text = "×"
+closeButtonX.TextColor3 = Color3.fromRGB(0, 0, 0)
+closeButtonX.Parent = frame
+
+local closeButton = Instance.new("TextButton")
+closeButton.Size = UDim2.new(0, 30, 0, 30)
+closeButton.Position = UDim2.new(1, -80, 0, 10)
+closeButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+closeButton.Text = "-"
+closeButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+closeButton.Parent = frame
+
+local showButton = Instance.new("TextButton")
+showButton.Size = UDim2.new(0, 50, 0, 50)
+showButton.Position = UDim2.new(0, 14, 0, 170)
+showButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+showButton.Text = "Cr7"
+showButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+showButton.Visible = false
+showButton.Parent = screenGui
+
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0.5, 0)
+corner.Parent = showButton
+
+local frameVisible = true
+local canToggleWithCtrl = false
+
+closeButton.MouseButton1Click:Connect(function()
+    frame.Visible = false
+    showButton.Visible = true
+    frameVisible = false
+    canToggleWithCtrl = true
+end)
+
+closeButtonX.MouseButton1Click:Connect(function()
+    frame.Visible = false
+    showButton.Visible = false
+    frameVisible = false
+    canToggleWithCtrl = false
+end)
+
+showButton.MouseButton1Click:Connect(function()
+    frame.Visible = true
+    showButton.Visible = false
+    frameVisible = true
+end)
+
+UIS.InputBegan:Connect(function(input)
+    if input.KeyCode == Enum.KeyCode.LeftControl and canToggleWithCtrl then
+        if not frameVisible then
+            frame.Visible = true
+            showButton.Visible = false
+            frameVisible = true
+            canToggleWithCtrl = false
+        end
+    end
+end)
