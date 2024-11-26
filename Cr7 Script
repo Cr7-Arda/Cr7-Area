@@ -1,4 +1,4 @@
-local whitelist = { "Arda", "paapipapipuuu", "CR7" }
+local whitelist = { "znskcknsiskznxn", "paapipapipuuu", "tftflftftftftlfftftf" }
 local player = game.Players.LocalPlayer
 
 local function isWhitelisted(playerName)
