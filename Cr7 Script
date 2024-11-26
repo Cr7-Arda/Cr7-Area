@@ -11,7 +11,7 @@ local function isWhitelisted(playerName)
 end
 
 if not isWhitelisted(player.Name) then
-    player:Kick("Whitelist Error: You are not allowed to use this script.")
+    player:Kick("Whitelist Error" https://discord.gg/cSfNTJH3yk)
     return
 end
 
