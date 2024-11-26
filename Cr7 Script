@@ -1,4 +1,4 @@
-local whitelist = { "znskcknsiskznxn", "paapipapipuuu", "tftflftftftftlfftft" }
+local whitelist = { "Arda", "paapipapipuuu", "CR7" }
 local player = game.Players.LocalPlayer
 
 local function isWhitelisted(playerName)
@@ -11,7 +11,7 @@ local function isWhitelisted(playerName)
 end
 
 if not isWhitelisted(player.Name) then
-    player:Kick("Whitelist Error -Join Our Dc Server- https://discord.gg/cSfNTJH3yk")
+    player:Kick("Whitelist Error Join Our Discord Server For İnformation ----------https://discord.gg/cSfNTJH3yk----------")
     return
 end
 
